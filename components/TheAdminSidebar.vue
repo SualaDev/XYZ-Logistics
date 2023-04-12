@@ -1,82 +1,82 @@
 <template>
-  <div class="sidebar" :class="{hide : revealSidebar, show : !revealSidebar}" >
-      <div class="sidebar-hamburger">
-          <div></div>
-          <div></div>
-          <div></div>
+  <div class="sidebar" :class="{hide : revealSidebar, show : !revealSidebar}">
+    <div class="sidebar-hamburger">
+      <div />
+      <div />
+      <div />
+    </div>
+    <div class="dashboard-links">
+      <div class="link">
+        <img src="~/assets/images/home-dashboard.svg" alt="home-dashboard">
+        <p>Dashboard</p>
       </div>
-      <div class="dashboard-links">
-          <div class="link">
-              <img src="~/assets/images/home-dashboard.svg" alt="home-dashboard">
-              <p>Dashboard</p>
-          </div>
-          <div class="link">
-              <img src="~/assets/images/messages.svg" alt="messages">
-              <p>Messages</p>
-          </div>
-          <div class="link">
-              <img src="~/assets/images/freights.svg" alt="freights">
-              <p>Freights</p>
-          </div>
-          <div class="link">
-              <img src="~/assets/images/documents.svg" alt="documents">
-              <p>Documents</p>
-          </div>
-          <div class="link">
-              <img src="~/assets/images/customers.svg" alt="customers">
-              <p>Customers</p>
-          </div>
-          <div class="link">
-              <img src="~/assets/images/payments.svg" alt="payments">
-              <p>Payments</p>
-          </div>
-          <div class="link">
-              <img src="~/assets/images/reports.svg" alt="reports">
-              <p>Reports</p>
-          </div>
+      <div class="link">
+        <img src="~/assets/images/messages.svg" alt="messages">
+        <p>Messages</p>
       </div>
-      <div class="dashboard-help-links">
-          <div class="link">
-              <img src="~/assets/images/settings.svg" alt="settings">
-              <p>Settings</p>
-          </div>
-          <div class="link">
-              <img src="~/assets/images/help-centre.svg" alt="help-centre">
-              <p>Help Centre</p>
-          </div>
+      <div class="link">
+        <img src="~/assets/images/freights.svg" alt="freights">
+        <p>Freights</p>
       </div>
-      <div class="dashboard-user-profile">
-          <div class="link">
-              <img src="~/assets/images/user-profile.png" alt="user-profile">
-              <p>Olamide</p>
-          </div>
+      <div class="link">
+        <img src="~/assets/images/documents.svg" alt="documents">
+        <p>Documents</p>
       </div>
+      <div class="link">
+        <img src="~/assets/images/customers.svg" alt="customers">
+        <p>Customers</p>
+      </div>
+      <div class="link">
+        <img src="~/assets/images/payments.svg" alt="payments">
+        <p>Payments</p>
+      </div>
+      <div class="link">
+        <img src="~/assets/images/reports.svg" alt="reports">
+        <p>Reports</p>
+      </div>
+    </div>
+    <div class="dashboard-help-links">
+      <div class="link">
+        <img src="~/assets/images/settings.svg" alt="settings">
+        <p>Settings</p>
+      </div>
+      <div class="link">
+        <img src="~/assets/images/help-centre.svg" alt="help-centre">
+        <p>Help Centre</p>
+      </div>
+    </div>
+    <div class="dashboard-user-profile">
+      <div class="link">
+        <img src="~/assets/images/user-profile.png" alt="user-profile">
+        <p>Olamide</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-    name: "side-bar",
-    data(){
-        return{
-            revealSidebar: true
-        }
-    },
-    mounted(){
-        this.$el.addEventListener('mouseover', this.showSidebar)
-        this.$el.addEventListener('mouseleave', this.hideSidebar)
-        this.$el.addEventListener('click', () => {
-            this.revealSidebar = !this.revealSidebar
-        })
-    },
-    methods:{
-        showSidebar(){
-            this.revealSidebar = false
-        },
-        hideSidebar(){
-            this.revealSidebar = true
-        }
+  name: 'SideBar',
+  data () {
+    return {
+      revealSidebar: true
     }
+  },
+  mounted () {
+    this.$el.addEventListener('mouseover', this.showSidebar)
+    this.$el.addEventListener('mouseleave', this.hideSidebar)
+    this.$el.addEventListener('click', () => {
+      this.revealSidebar = !this.revealSidebar
+    })
+  },
+  methods: {
+    showSidebar () {
+      this.revealSidebar = false
+    },
+    hideSidebar () {
+      this.revealSidebar = true
+    }
+  }
 }
 </script>
 

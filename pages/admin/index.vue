@@ -1,13 +1,16 @@
-<template lang="">
-  <div></div>
+<template>
+  <div>
+    <DashboardNavbar />
+    <DashboardSidebar />
+  </div>
 </template>
+
 <script>
-
-
 export default {
-  layout: "admin-layout",
-};
+  layout: 'AdminLayout'
+}
 </script>
-<style lang="">
-  
+
+<style scoped>
+
 </style>

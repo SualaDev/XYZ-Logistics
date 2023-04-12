@@ -1,23 +1,23 @@
 <template>
   <div class="navbar-container">
-      <div class="brand-name">
-          <h1>XYZ.LOGISTICS</h1>
+    <div class="brand-name">
+      <h1>XYZ.LOGISTICS</h1>
+    </div>
+    <div class="search-bar-container">
+      <div class="search-bar">
+        <img src="~/assets/images/search-icon.svg" alt="search">
+        <input type="text" placeholder="search...">
       </div>
-      <div class="search-bar-container">
-          <div class="search-bar">
-              <img src="~/assets/images/search-icon.svg" alt="search">
-              <input type="text" placeholder="search...">
-          </div>
-          <div class="notification-bell">
-              <img src="~/assets/images/notification-bell.svg" alt="notification-bell">
-          </div>
+      <div class="notification-bell">
+        <img src="~/assets/images/notification-bell.svg" alt="notification-bell">
       </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-    name: "dashboardNavbar"
+  name: 'DashboardNavbar'
 }
 </script>
 
