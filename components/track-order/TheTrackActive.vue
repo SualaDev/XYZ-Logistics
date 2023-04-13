@@ -1,12 +1,12 @@
-<template lang="">
+<template >
   <div class="track-active-container">
     <div class="back">
-      <nuxt-link to="/orders">
+      <div @click="goToPrev">
         <font-awesome-icon icon="arrow-left" />
-      </nuxt-link>
+      </div>
     </div>
     <div class="rider">
-      <img src="~assets/images/track-rider.png" alt="" />
+      <img src="~assets/images/track-rider.png" class="track-order-img" alt="" />
       <nuxt-link to="/orders/rider-chat" class="rider-chat">
         <div class="left">
           <img src="~assets/images/rider-img.png" alt="" class="rider-img" />
@@ -54,7 +54,7 @@
         </div>
         <div class="info">
           <p class="title">Order Number</p>
-          <p class="num">Nywj-879</p>
+          <p class="num">{Nywj-879}</p>
           <p class="det" @click="toggleModal">
             More Details <font-awesome-icon icon="angle-down" />
           </p>
@@ -87,6 +87,9 @@ export default {
     toggleModal() {
       this.modalOpen = !this.modalOpen;
     },
+    goToPrev(){
+      this.$router.go(-1)
+    }
   },
 };
 </script>
@@ -101,6 +104,9 @@ export default {
     margin-top: 35px;
     padding: 2rem;
     text-decoration: none;
+    .track-order-img{
+      width: 100%;
+    }
     .rider-chat {
       @include flex-center();
       justify-content: space-between;

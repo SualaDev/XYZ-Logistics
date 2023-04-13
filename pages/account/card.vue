@@ -154,4 +154,36 @@ main {
     }
   }
 }
+@media screen and (max-width: 500px) {
+  main {
+    .container {
+       width: 100%;
+      .btn {
+        width: 70%;
+        margin-right: auto;
+        margin-left: auto;
+        margin-top: 300px;
+      }
+      .cardNumber {
+      input {
+        width: 100%;
+        padding: 20px 30px;
+      }
+    }
+      .cardDetails{
+        display: block;
+        width: 100%;
+        .date{
+          margin-bottom: 30px;
+          .expire{
+        width: 100%;
+      }
+        }
+      .cvv{
+        width: 100%;
+      }
+    }
+    }
+  }
+}
 </style>

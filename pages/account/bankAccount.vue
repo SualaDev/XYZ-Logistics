@@ -180,4 +180,22 @@ main {
     }
   }
 }
+@media screen and (max-width: 500px) {
+  main {
+    .container {
+       width: 100%;
+      .cardNumber{
+        input{
+          width: 100%;
+        }
+      }
+      .btn {
+        width: 70%;
+         margin-top: 200px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+      }
+  }
+}
 </style>

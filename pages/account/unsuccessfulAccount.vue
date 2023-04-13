@@ -88,4 +88,16 @@ main {
     }
   }
 }
+@media screen and (max-width: 500px) {
+  main {
+    .container {
+       width: 100%;
+      .btn {
+        width: 70%;
+       margin-right: auto;
+        margin-left: auto;
+      }
+    }
+  }
+}
 </style>

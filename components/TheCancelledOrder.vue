@@ -1,12 +1,12 @@
 <template lang="">
-  <nuxt-link to="/orders/track-order" class="package-container">
+  <nuxt-link :to="`/orders/track-order/${cancelledShipmentProp._id}`" class="package-container">
     <div class="package-card">
       <div class="package-info">
         <img src="~assets/images/tracker.png" alt="" />
         <div class="package">
-          <p class="time">Iyana Ipaja, Lagos</p>
-          <p class="black">Festac Lagos</p>
-          <p class="time">Nywj-079</p>
+          <p class="time">{{ cancelledShipmentProp.pickup_address }}</p>
+          <p class="black">{{ cancelledShipmentProp.delivery_address }}</p>
+          <p class="time">{{ cancelledShipmentProp.package_id }}</p>
         </div>
       </div>
       <div class="loader center">
@@ -16,7 +16,13 @@
   </nuxt-link>
 </template>
 <script>
-export default {};
+export default {
+  props:{
+    cancelledShipmentProp:{
+      type: Object
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .package-container {
@@ -26,7 +32,7 @@ export default {};
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    min-width: 364px;
+    min-width: 310px;
     height: 110px;
     padding: 1rem 2rem;
     margin: 2rem 0rem;

@@ -1,11 +1,11 @@
-<template lang="">
+<template>
   <main>
     <div class="container">
-      <div class="back">
-        <nuxt-link to="#" class="" exact-active-class="">
+      <!-- <div class="back">
+        <nuxt-link to="/orders" class="" exact-active-class="">
           <img src="~/assets/images/leftArrow.svg">
         </nuxt-link>
-      </div>
+      </div> -->
       <div class="title">
         <nuxt-link
           to="#"
@@ -20,9 +20,7 @@
           to="/account"
           :class="[
             'kemi',
-            $route.name.includes('account')
-              ? 'nuxt-link-exact-active'
-              : '',
+            $route.name.includes('account') ? 'nuxt-link-exact-active' : '',
           ]"
           exact-active-class=""
         >
@@ -30,10 +28,15 @@
         </nuxt-link>
       </div>
       <div class="profileUpload">
-        <img src="~/assets/images/profile.svg">
-        <p>Update your profile photo</p>
+        <!-- <img src="~/assets/images/profile.svg"> -->
+        <img
+          :src="imgSrc"
+          alt="avatar"
+          class="imgSrc"
+        >
+         <!-- <img :src="imgSrc || '/profile.jpg'" alt="avatar" class="imgSrc"> -->
       </div>
-      <div>
+      <div v-show="!loading">
         <div class="profileDetails">
           <div class="pencil">
             <label>First Name</label>
@@ -41,28 +44,30 @@
               src="~/assets/images/pencil.svg"
               @click="
                 clicked = true;
-                $router.push('/profile/editProfile');
-              "
+                $router.push('/profile/editProfile');"
             >
           </div>
-          <input type="text">
+          <input v-model="first_name" type="text" disabled>
         </div>
         <div class="profileDetails">
           <label>Last Name</label>
-          <input type="text">
+          <input v-model="last_name" type="text" disabled>
         </div>
         <div class="profileDetails">
           <label>Phone Number</label>
-          <input type="text">
+          <input v-model="number" type="text" disabled>
         </div>
         <div class="profileDetails">
           <label>Email Address</label>
-          <input type="text">
+          <input v-model="email" type="text" disabled>
         </div>
         <div class="profileDetails">
           <label>Home Address</label>
-          <input type="text">
+          <input v-model="address" type="text" disabled>
         </div>
+      </div>
+      <div v-show="loading" class="loading">
+        <img src="~/assets/images/loader_black.svg" alt="black loader">
       </div>
       <section class="footer">
         <TheBottomNav />
@@ -75,12 +80,43 @@
 </template>
 
 <script>
+import imgProfile from '~/assets/images/profile.svg'
 export default {
   name: 'Profile',
   data () {
     return {
       title: 'Save',
-      clicked: false
+      clicked: false,
+      first_name: '',
+      last_name: '',
+      email: '',
+      number: '',
+      address: '',
+      imgSrc: imgProfile
+    }
+  },
+  computed: {
+    loading () {
+      return this.$store.state.loading
+    }
+  },
+  created () {
+    this.getUserdetails()
+  },
+  methods: {
+    async getUserdetails () {
+      const response = await this.$axios.get(
+        `https://xyz-logistics-api.herokuapp.com/api/v1/user/profile/${this.$store.state.userDetails._id}`
+      )
+      console.log(response.data.data)
+      this.first_name = response.data.data.firstname
+      this.last_name = response.data.data.lastname
+      this.email = response.data.data.email
+      this.number = response.data.data.phone_number
+      this.address = response.data.data.address.primary
+      if (response.data.data.photo !== '/avatar.png') {
+        this.imgSrc = response.data.data.photo
+      }
     }
   }
 }
@@ -148,6 +184,12 @@ main {
       img {
         cursor: pointer;
       }
+      .imgSrc {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 50%;
+      }
       p {
         margin: 16px 0 24px 0;
         font-weight: 400;
@@ -159,10 +201,10 @@ main {
     .profileDetails {
       margin-bottom: 32px;
       position: relative;
-      .pencil{
+      .pencil {
         display: flex;
         justify-content: space-between;
-        img{
+        img {
           cursor: pointer;
         }
       }
@@ -174,7 +216,7 @@ main {
       input {
         background: #f4f4f4;
         border-radius: 8px;
-        outline:none;
+        outline: none;
         width: 364px;
         border-style: none;
         padding: 20px;
@@ -187,64 +229,50 @@ main {
         cursor: pointer;
       }
     }
-    .cardDetails {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      label {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 24px;
-      }
-      .date {
-        position: relative;
-        // background: pink;
-        .expire {
-          border: 1px solid #b0b0b0;
-          border-radius: 8px;
-          width: 196px;
-          margin-top: 8px;
-          padding: 20px 30px;
-        }
-        .calendar {
-          position: absolute;
-          top: 49px;
-          left: 16px;
-          cursor: pointer;
-        }
-      }
-      .cvv {
-        border: 1px solid #b0b0b0;
-        border-radius: 8px;
-        width: 132px;
-        margin-top: 8px;
-        padding: 20px 30px;
-      }
-    }
+
     .btn {
       width: 100%;
       display: flex;
-        padding: 0 0 32px 0;
+      padding: 0 0 32px 0;
       margin-top: 466px;
       justify-content: center;
     }
     .footer {
-       width: 100%;
+      width: 100%;
       margin: 0 0 32px 0;
-
+    }
+    .loading{
+      @include flex-center;
+      height: 55vh;
+      img{
+       width: 80px;
+       height: 80px;
+      }
     }
   }
   // .footer {
-      // position: fixed;
-      // bottom: 20px;
-      // bottom: 130px;
-      //  width: 19%;
-      //  width: 100%;
-      //  width: 100%;
-      // left: 40.5%;
-      // background: red;
-      // margin: 0px 27px 32px 0px;
+  // position: fixed;
+  // bottom: 20px;
+  // bottom: 130px;
+  //  width: 19%;
+  //  width: 100%;
+  //  width: 100%;
+  // left: 40.5%;
+  // background: red;
+  // margin: 0px 27px 32px 0px;
 
-    // }
+  // }
+}
+@media screen and (max-width: 500px) {
+  main {
+    .container {
+      width: 100%;
+      .profileDetails {
+        input {
+          width: 100%;
+        }
+      }
+    }
+  }
 }
 </style>

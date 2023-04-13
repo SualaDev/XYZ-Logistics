@@ -2,9 +2,9 @@
   <main>
     <div class="container">
       <div class="back">
-        <nuxt-link to="#" class="" exact-active-class="">
+        <div class="" exact-active-class="" @click="goToPrev">
           <img src="~/assets/images/leftArrow.svg">
-        </nuxt-link>
+        </div>
       </div>
       <div class="title">
         <nuxt-link
@@ -17,7 +17,7 @@
           <p>Profile Settings</p>
         </nuxt-link>
         <nuxt-link
-          to="#"
+          to="/account"
           :class="[
             'kemi',
             $route.name.includes('account')
@@ -30,20 +30,11 @@
         </nuxt-link>
       </div>
       <div class="profileDetails">
-        <div class="pencil">
-          <label>Password</label>
-          <img
-            src="~/assets/images/pencil.svg"
-            @click="
-              clicked = true;
-              $router.push('/account/editAccount');
-            "
-          >
-        </div>
-        <input type="text" placeholder="Old Password">
+        <label>Password</label>
+        <input v-model="oldPassword" type="text" placeholder="Old Password">
       </div>
       <div class="profileDetails">
-        <input type="text" placeholder="New Password">
+        <input v-model="newPassword" type="text" placeholder="New Password">
       </div>
       <div
         class="profileDetails debit"
@@ -53,7 +44,7 @@
         "
       >
         <label>Add a debit card</label>
-          <img src="~/assets/images/next.svg">
+        <img src="~/assets/images/next.svg">
       </div>
       <div
         class="profileDetails bank"
@@ -63,16 +54,12 @@
         "
       >
         <label>Add a bank account</label>
-          <img src="~/assets/images/next.svg">
+        <img src="~/assets/images/next.svg">
       </div>
-      <section class="footer">
-      <TheBottomNav />
-    </section>
+      <div class="btn" @click="save()">
+        <Button :name="title" />
+      </div>
     </div>
-
-    <!-- <section class="footer">
-      <TheBottomNav />
-    </section> -->
     </div>
   </main>
 </template>
@@ -83,7 +70,46 @@ export default {
   data () {
     return {
       title: 'Save',
-      clicked: false
+      oldPassword: '',
+      newPassword: ''
+    }
+  },
+  methods: {
+    async save () {
+      const data = {
+        oldPassword: this.oldPassword,
+        password: this.newPassword,
+        phone_number: this.number,
+        email: this.email,
+        address: this.address
+      }
+      if (
+        this.oldPassword !== '' ||
+            this.newPassword !== ''
+      ) {
+        const request = await this.$axios
+          .put('https://xyz-logistics-api.herokuapp.com/api/v1/user/change-password', data)
+
+        if (request.status === 200) {
+          console.log(request)
+          this.$toasted.show('You have changed your password successfully', {
+            position: 'top-center',
+            duration: 2000,
+            type: 'success'
+          })
+          this.$router.push('/auth/login')
+        } else if (request.status !== 200) {
+          console.log(request.status)
+          this.$toasted.show('Your current password is incorrect', {
+            position: 'top-center',
+            duration: 3000,
+            type: 'danger'
+          })
+        }
+      }
+    },
+    goToPrev () {
+      this.$router.go(-1)
     }
   }
 }
@@ -109,7 +135,6 @@ main {
     background: #fff;
     margin: 0 auto;
     max-width: 428px;
-    //  max-width:1200px;
     height: 926px;
     padding: 37px 32px 0 32px;
     .back {
@@ -140,6 +165,7 @@ padding: 2px 8px;
 
       }
     }
+
     .debit{
         display: flex;
         justify-content: space-between;
@@ -182,11 +208,11 @@ border-radius: 8px;
       input {
         background: #F4F4F4;
 border-radius: 8px;
-outline:none;
         width: 364px;
         border-style: none;
         padding: 20px;
         margin-top: 8px;
+        outline:none;
       }
       ::placeholder{
           font-weight: 400;
@@ -238,28 +264,37 @@ outline:none;
     .btn {
       width: 100%;
       display: flex;
-        padding: 0 0 32px 0;
-      margin-top: 466px;
+      padding: 0 0 32px 0;
+      margin-top: 266px;
       justify-content: center;
     }
     .footer {
-      // position: fixed;
-      // bottom: 0;
-      // width: 100%;
-      // margin: 2rem;
-      // padding: 32px 24px;
+      position: fixed;
+      bottom: 0;
       width: 100%;
-      margin: 250px 27px 32px 0px;
+      margin: 2rem;
     }
   }
-  .footer {
-      // position: fixed;
-      // bottom: 0;
-      // width: 100%;
-      // margin: 2rem;
-      // padding: 32px 24px;
-      width: 39%;
-      margin: 38px 27px 32px 28px;
-    }
+}
+@media screen and (max-width: 500px) {
+  main {
+    .container {
+       width: 100%;
+      .profileDetails{
+        input{
+          width: 100%;
+        }
+      }
+      .bank, .debit{
+        width: 100%
+      }
+      .btn {
+        width: 70%;
+         margin-top: 200px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+      }
+  }
 }
 </style>
