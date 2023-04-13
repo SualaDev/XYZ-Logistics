@@ -30,10 +30,10 @@
           <div>
             <input
               id=""
+              v-model="trackingNumber"
               type="search"
               name="track"
               placeholder="Enter Tracking Number"
-              v-model="trackingNumber"
             >
             <button>
               <font-awesome-icon icon="magnifying-glass" />
@@ -42,11 +42,11 @@
         </div>
         <div class="active-shipments">
           <p>Active Shipments</p>
-          <TheActiveShipment v-for="shipments in filteredShipments" :key="shipments._id" :shipmentData="shipments" v-show="!loading" />
-          <div class="img-container" v-show="loading">
+          <TheActiveShipment v-for="shipments in filteredShipments" v-show="!loading" :key="shipments._id" :shipment-data="shipments" />
+          <div v-show="loading" class="img-container">
             <img src="~/assets/images/loader_black.svg" alt="Loading...">
           </div>
-          <the-empty-content v-show="showEmpty" :emptyCaption="'You currently have no active shipments'" :styles="{ height: '30vh', 'justify-content': 'flex-start'}" />
+          <the-empty-content v-show="showEmpty" :empty-caption="'You currently have no active shipments'" :styles="{ height: '30vh', 'justify-content': 'flex-start'}" />
         </div>
       </div>
     </section>
@@ -60,49 +60,33 @@ import TheEmptyContent from '~/components/TheEmptyContent.vue'
 export default {
   components: { TheEmptyContent },
   layout: 'auth-layout',
-  data(){
-    return{
+  data () {
+    return {
       activeShipments: [],
-      trackingNumber: "",
+      trackingNumber: ''
     }
   },
-  async mounted(){
-    try {
-      const activeShipmentsReq = await this.$axios.get(`/api/v1/requests/user?status=pending`)
-      this.activeShipments = activeShipmentsReq.data.data
-    } catch (error) {
-      this.$toasted.show(
-        `Can't load active shipments: ${error.response.data.message.message}`,
-        {
-          position: 'top-center',
-          type: 'danger',
-          duration: 3500,
-        }
-      )
-    }
-    
-  },
-  computed:{
-    loading(){
+  computed: {
+    loading () {
       return this.$store.state.loading
     },
-    filteredShipments(){
-      if(this.trackingNumber !== ""){
-        return this.activeShipments.filter(shipments => {
+    filteredShipments () {
+      if (this.trackingNumber !== '') {
+        return this.activeShipments.filter((shipments) => {
           return shipments?.package_id.match(this.trackingNumber.toUpperCase())
-        });
+        })
       } else {
         return this.activeShipments
       }
     },
-    showEmpty(){
-      if(this.filteredShipments.length == 0){
+    showEmpty () {
+      if (this.filteredShipments.length === 0) {
         return true
       } else {
         return false
       }
     },
-    userDetails(){
+    userDetails () {
       return this.$store.state.userDetails
     }
   }

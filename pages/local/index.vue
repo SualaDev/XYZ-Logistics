@@ -252,117 +252,36 @@ export default {
     })
   },
   methods: {
-    async pay () {
+    pay () {
       try {
-        const deliveryReq = await this.$axios.post('/api/v1/request', this.requestDelivery)
-        this.$toasted.show(deliveryReq.data.message, {
-          position: 'top-center',
-          duration: 2500,
-          type: 'success'
-        })
         this.requestPrice = this.basePrice + (Number(this.requestDelivery.weight) * 50) // Setting price of the request for local transactions
         this.$store.commit('setRequestPrice', this.requestPrice)
-        console.log(deliveryReq)
+        setTimeout(() => {
+          this.$router.push('/payments')
+        }, 3000)
       } catch (error) {
-        this.$toasted.show(
-          error.response.data.message,
-          {
-            position: 'top-center',
-            type: 'danger',
-            duration: 3500
-          }
-        )
         console.log(error.message)
       }
-      const data = {
-
-        email: this.email,
-        amount: this.amount
-      }
-
-      const request = await this.$axios
-        .post('https://xyz-logistics-api.herokuapp.com/api/v1/wallet/paystack/initialize', data)
-      window.location.href = request.data.data.authorization_url
-      if (request) {
-        console.log(request.data.data.authorization_url)
-      }
     },
+
     toggleSend () {
       this.send = true
       this.receive = false
       this.requestDelivery.deliveryType = 'pickup'
     },
+
     toggleReceive () {
       this.receive = true
       this.send = false
       this.requestDelivery.deliveryType = 'dropoff'
     },
-    async requestDeliveryHandler () {
-      // let directionsService = await new google.maps.DirectionsService(); // Instantiating the directions service API
-      // let directionsRenderer = await new google.maps.DirectionsRenderer(); // Instantiating the directions Renderer API
 
-      // // Create route from existing points used for markers
-      // const route = {
-      //     origin: this.originLngLat,
-      //     destination: this.destinationLngLat,
-      //     travelMode: 'DRIVING'
-      // }
-
-      // this.destinationLngLat && await directionsService.route(route,
-      //     async function(response, status) { // anonymous function to capture directions
-      //     if (status !== 'OK') {
-      //         this.$toasted.show(
-      //             'Directions request failed due to ' + status,
-      //             {
-      //                 position: 'top-center',
-      //                 type: 'danger',
-      //                 duration: 3500,
-      //             }
-      //             )
-      //         return;
-      //     } else {
-      //         await directionsRenderer.setDirections(response); // Add route to the map
-      //         var directionsData = response.routes[0].legs[0]; // Get data about the mapped route
-      //         if (!directionsData) {
-      //         this.$toasted.show(
-      //             'Directions request failed due to ' + status,
-      //             {
-      //                 position: 'top-center',
-      //                 type: 'danger',
-      //                 duration: 3500,
-      //             }
-      //             )
-      //         return;
-      //         }
-      //         else {
-      //             let distanceText = directionsData.distance.text
-      //             distanceText = distanceText.split(" ")
-      //             this.distance = Number(distanceText[0])
-      //             this.requestPrice = this.localBasePrice + (this.distance * 10) + (this.weight * 50) // Setting price of the request for local transactions
-      //             console.log(directionsData);
-      //         }
-      //     }
-      //     }.bind(this))
-
+    requestDeliveryHandler () {
       try {
-        const deliveryReq = await this.$axios.post('/api/v1/request', this.requestDelivery)
-        this.$toasted.show(deliveryReq.data.message, {
-          position: 'top-center',
-          duration: 2500,
-          type: 'success'
-        })
         this.requestPrice = this.basePrice + (Number(this.requestDelivery.weight) * 50) // Setting price of the request for local transactions
         this.$store.commit('setRequestPrice', this.requestPrice)
-        console.log(deliveryReq)
+        console.log('Delivery request successful')
       } catch (error) {
-        this.$toasted.show(
-          error.response.data.message,
-          {
-            position: 'top-center',
-            type: 'danger',
-            duration: 3500
-          }
-        )
         console.log(error.message)
       }
     }

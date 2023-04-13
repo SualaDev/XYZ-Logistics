@@ -2,6 +2,9 @@
   "name": "interns-logistics-app",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -19,7 +22,7 @@
     "@nuxtjs/pwa": "^3.3.5",
     "@nuxtjs/toast": "^3.3.1",
     "axios": "^0.27.2",
-    "core-js": "^3.19.3",
+    "core-js": "^3.30.1",
     "nuxt": "^2.15.8",
     "nuxt-fontawesome": "^0.4.0",
     "vue": "^2.6.14",

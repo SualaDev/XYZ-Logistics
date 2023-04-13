@@ -1,91 +1,106 @@
 <template>
   <div class="desktop-container">
     <div class="login-container">
-        <div class="back-arrow">
-          <font-awesome-icon icon="arrow-left" @click="goToPrev" />
-        </div>
-        <div class="login-header">
-          Login
-        </div>
-        <div class="social-logins">
-          <button class="google link">
-              <img src="~/assets/images/Google-icon.svg" alt="google">
-              <p>Google</p>
-          </button>
-          <button class="facebook link">
-              <img src="~/assets/images/Facebook-icon.svg" alt="facebook">
-              <p>Facebook</p>
-          </button>
+      <div class="back-arrow">
+        <font-awesome-icon icon="arrow-left" @click="goToPrev" />
+      </div>
+      <div class="login-header">
+        Login
+      </div>
+      <div class="social-logins">
+        <button class="google link">
+          <img src="~/assets/images/Google-icon.svg" alt="google">
+          <p>Google</p>
+        </button>
+        <button class="facebook link">
+          <img src="~/assets/images/Facebook-icon.svg" alt="facebook">
+          <p>Facebook</p>
+        </button>
       </div>
       <div class="page-breaker">
-          <div class="line"></div>
-          <div class="or">OR</div>
-          <div class="line"></div>
+        <div class="line" />
+        <div class="or">
+          OR
+        </div>
+        <div class="line" />
       </div>
       <div class="form-container">
         <div class="email input-field">
-              <label for="email">Email</label>
-              <input type="email" name="email" id="email" v-model="loginDetails.email">
-          </div>
-          <div class="password input-field">
-              <label for="password">Password</label>
-              <input type="password" name="password" id="password" v-model="loginDetails.password">
-          </div>
+          <label for="email">Email</label>
+          <input id="email" v-model="loginDetails.email" type="email" name="email">
+        </div>
+        <div class="password input-field">
+          <label for="password">Password</label>
+          <input id="password" v-model="loginDetails.password" type="password" name="password">
+        </div>
       </div>
       <div class="continue-btn">
-          <button @click="loginUser" :class="{ loading : loading }">Continue <span v-show="loading"><img src="~/assets/images/loader.svg" alt="loader"></span></button>
+        <button :class="{ loading : loading }" @click="loginUser">
+          Continue <span v-show="loading"><img src="~/assets/images/loader.svg" alt="loader"></span>
+        </button>
       </div>
     </div>
   </div>
 </template>
 <script>
 export default {
-  name: "LoginPage",
-  data(){
-    return{
-      loginDetails:{
-        email: "",
-        password: ""
-      },
+  name: 'LoginPage',
+  data () {
+    return {
+      loginDetails: {
+        email: '',
+        password: ''
+      }
     }
   },
-  methods:{
-    async loginUser(){
-      if(!this.loading){
-        try {
-          const loginReq = await this.$axios.post('/api/v1/auth/signin', this.loginDetails)
-          this.$store.commit("addUserDetails", loginReq.data.data.user)
-          this.$store.commit("setToken", loginReq.data.data.token)
-            this.$toasted.show('You have logged in successfully', {
-              position: 'top-center',
-              duration: 2500,
-              type: 'success',
-            })
-          this.$router.push('/home')
-          console.log(loginReq, loginReq.data.data.user, loginReq.data.data.token);
-        } catch (error) {
-          this.$toasted.show(
-              error.response.data.message || error.message,
-              {
-                position: 'top-center',
-                type: 'danger',
-                duration: 3500,
-              }
-            )
-            console.log(error);
-          }
-      }
-    },
-    goToPrev(){
-        this.$router.go(-1)
-      }
-  },
-  computed:{
-    loading(){
+  computed: {
+    loading () {
       return this.$store.state.loading
     }
+  },
+  methods: {
+    loginUser () {
+      if (!this.loading) {
+        try {
+          // Here you can perform a check on the loginDetails object to ensure that the email and password properties have been filled
+          if (this.loginDetails.email === '' || this.loginDetails.password === '') {
+            this.$toasted.show('Please fill in all the fields', {
+              position: 'top-center',
+              duration: 2500,
+              type: 'warning'
+            })
+            return
+          }
+          // Here you can perform any necessary validation on the user's input before proceeding
+          this.$store.commit('addUserDetails', this.loginDetails.email)
+          this.$store.commit('setToken', 'some token')
+          this.$toasted.show('You have logged in successfully', {
+            position: 'top-center',
+            duration: 2500,
+            type: 'success'
+          })
+          setTimeout(() => {
+            this.$router.push('/home')
+          }, 2000)
+        } catch (error) {
+          this.$toasted.show(
+            error.response.data.message || error.message,
+            {
+              position: 'top-center',
+              type: 'danger',
+              duration: 3500
+            }
+          )
+          console.log(error)
+        }
+      }
+    },
+    goToPrev () {
+      this.$router.go(-1)
+    }
   }
-};
+}
+
 </script>
 <style lang="scss" scoped>
   .login-container{

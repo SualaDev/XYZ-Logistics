@@ -16,17 +16,17 @@
         </p>
       </section>
       <section v-show="active" class="active-cards">
-        <TheActiveOrder v-for="shipment in activeShipments" :key="shipment._id" :shipmentProp="shipment" />
+        <TheActiveOrder v-for="shipment in activeShipments" :key="shipment._id" :shipment-prop="shipment" />
         <div class="loading">
           <span v-show="loading"><img src="~/assets/images/loader_black.svg" alt="loader"></span>
         </div>
       </section>
       <section v-show="delivered" class="active-cards">
-        <the-empty-content emptyCaption="You currently have no delivered orders" />
+        <the-empty-content empty-caption="You currently have no delivered orders" />
       </section>
       <section v-show="cancelled" class="active-cards">
-        <TheCancelledOrder v-for="shipment in cancelledShipments" :key="shipment._id" :cancelledShipmentProp="shipment" />
-        <the-empty-content emptyCaption="You currently have no cancelled orders" v-if="!cancelledShipments" />
+        <TheCancelledOrder v-for="shipment in cancelledShipments" :key="shipment._id" :cancelled-shipment-prop="shipment" />
+        <the-empty-content v-if="!cancelledShipments" empty-caption="You currently have no cancelled orders" />
       </section>
     </div>
 
@@ -36,60 +36,42 @@
   </main>
 </template>
 <script>
-import TheEmptyContent from '~/components/TheEmptyContent.vue';
+import TheEmptyContent from '~/components/TheEmptyContent.vue'
 import TheCancelledOrder from '~/components/TheCancelledOrder.vue'
 export default {
   components: { TheEmptyContent, TheCancelledOrder },
-  data() {
+  data () {
     return {
       active: true,
       delivered: false,
       cancelled: false,
       activeShipments: [],
-      cancelledShipments: [],
-    };
+      cancelledShipments: []
+    }
   },
-  async mounted(){
-    try {
-      const activeShipmentsReq = await this.$axios.get(`/api/v1/requests/user?status=pending`)
-      const cancelledShipmentsReq = await this.$axios.get(`/api/v1/requests/user?status=cancelled`)
-      console.log(cancelledShipmentsReq);
-      this.activeShipments = activeShipmentsReq.data.data
-      this.cancelledShipments = cancelledShipmentsReq.data.data
-    } catch (error) {
-      this.$toasted.show(
-        `Can't load active shipments: ${error.response.data.message.message}`,
-        {
-          position: 'top-center',
-          type: 'danger',
-          duration: 3500,
-        }
-      )
+  computed: {
+    loading () {
+      return this.$store.state.loading
     }
   },
   methods: {
-    toggleActive() {
-      this.active = true;
-      this.delivered = false;
-      this.cancelled = false;
+    toggleActive () {
+      this.active = true
+      this.delivered = false
+      this.cancelled = false
     },
-    toggleDelivered() {
-      this.delivered = true;
-      this.active = false;
-      this.cancelled = false;
+    toggleDelivered () {
+      this.delivered = true
+      this.active = false
+      this.cancelled = false
     },
-    toggleCancelled() {
-      this.cancelled = true;
-      this.active = false;
-      this.delivered = false;
-    },
-  },
-  computed:{
-    loading(){
-      return this.$store.state.loading
+    toggleCancelled () {
+      this.cancelled = true
+      this.active = false
+      this.delivered = false
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 main {

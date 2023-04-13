@@ -1,29 +1,33 @@
 <template>
-    <div class="desktop-container">
-        <div class="splash-screen-container">
-            <div class="splash-screen-image">
-                <img src="~/assets/images/splash-screen.png" alt="splash screen">
-            </div>
-            <div class="splash-screen-content">
-                <p>
-                    Welcome to the Best way to <strong>send</strong> or <strong>receive</strong> an Item.
-                </p>
-                <p>Send or Recieve Items locally or internationally.</p>
-            </div>
-            <div class="splash-screen-btns">
-                <nuxt-link to="/auth/register" class="nuxt-link-btn">Get Started</nuxt-link>
-                <div class="login-link">
-                    <p>Already have an account?</p>
-                    <nuxt-link to="/auth/login">Login</nuxt-link>
-                </div>
-            </div>
+  <div class="desktop-container">
+    <div class="splash-screen-container">
+      <div class="splash-screen-image">
+        <img src="~/assets/images/splash-screen.png" alt="splash screen">
+      </div>
+      <div class="splash-screen-content">
+        <p>
+          Welcome to the Best way to <strong>send</strong> or <strong>receive</strong> an Item.
+        </p>
+        <p>Send or Recieve Items locally or internationally.</p>
+      </div>
+      <div class="splash-screen-btns">
+        <nuxt-link to="/auth/register" class="nuxt-link-btn">
+          Get Started
+        </nuxt-link>
+        <div class="login-link">
+          <p>Already have an account?</p>
+          <nuxt-link to="/auth/login">
+            Login
+          </nuxt-link>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: "splashScreen"
+  name: 'SplashScreen'
 }
 </script>
 
